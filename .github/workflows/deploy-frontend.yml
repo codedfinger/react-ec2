@@ -37,7 +37,7 @@ jobs:
       run: docker push codedfingers/kito:latest
 
     - name: SSH into EC2 and deploy the Docker container
-      uses: appleboy/ssh-action@v0.1.1
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.EC2_INSTANCE_IP }}
         username: ec2-user

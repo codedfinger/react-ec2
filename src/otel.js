@@ -1,11 +1,12 @@
-import { WebTracerProvider } from '@opentelemetry/sdk-trace-web';
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-base';
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+const { NodeSDK } = require('@opentelemetry/sdk-node');
+const { CollectorTraceExporter } = require('@opentelemetry/exporter-collector');
 
-const provider = new WebTracerProvider();
-const exporter = new OTLPTraceExporter({
-  url: 'http://54.159.7.71:55680/v1/traces',
+const sdk = new NodeSDK({
+  traceExporter: new CollectorTraceExporter({
+    url: 'http://otel-collector:4317', // Use the gRPC port for tracing
+  }),
 });
 
-provider.addSpanProcessor(new BatchSpanProcessor(exporter));
-provider.register();
+sdk.start()
+  .then(() => console.log('OpenTelemetry initialized'))
+  .catch((err) => console.log('Error initializing OpenTelemetry', err));

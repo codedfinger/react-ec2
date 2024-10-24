@@ -48,3 +48,4 @@ jobs:
           docker stop kito || true
           docker rm kito || true
           docker run -d --name kito -p 80:3000 codedfingers/kito:latest
+
